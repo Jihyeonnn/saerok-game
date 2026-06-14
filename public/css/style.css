@@ -443,8 +443,7 @@ input[type="range"] {
 }
 
 .direction-btn,
-.color-btn,
-.confirm-btn {
+.color-btn {
   min-height: 76px;
   border-radius: 16px;
   color: #fff;
@@ -644,12 +643,6 @@ input[type="range"] {
 .color-btn {
   width: min(180px, 100%);
   font-size: clamp(22px, 4vw, 24px);
-}
-
-.confirm-btn {
-  width: min(180px, 100%);
-  font-size: clamp(24px, 4vw, 26px);
-  background: #e07a5f;
 }
 
 .red-btn {
@@ -1307,8 +1300,7 @@ table th {
   }
 
   .direction-btn,
-  .color-btn,
-  .confirm-btn {
+  .color-btn {
     width: 100%;
   }
 

@@ -11,8 +11,8 @@ const gameInfo = {
   },
   dial: {
     title: "다이얼 수치 맞추기",
-    instruction: "목표 수치에 가깝게 다이얼을 조절한 뒤 확인 버튼을 눌러 주세요.",
-    method: "다이얼 + IR 확인"
+    instruction: "제한 시간 동안 목표 수치에 가깝게 다이얼을 조절해 주세요. 시간이 끝나면 자동으로 채점됩니다.",
+    method: "가변저항 다이얼"
   }
 };
 
@@ -423,7 +423,10 @@ function renderDialPage() {
   const tolerance = getDialTolerance();
 
   document.getElementById("inputArea").innerHTML = `
-    <p class="dial-tolerance">목표값과 차이 ${tolerance} 이내면 정답입니다.</p>
+    <p class="dial-tolerance">
+      목표값과 차이 ${tolerance} 이내면 정답입니다.<br />
+      남은 시간이 0초가 되면 현재 값으로 자동 채점됩니다.
+    </p>
     <input
       id="dialControl"
       type="range"
@@ -432,8 +435,6 @@ function renderDialPage() {
       value="${currentDialValue}"
       oninput="changeDialValue(this.value)"
     />
-    <br />
-    <button class="confirm-btn" onclick="submitDialAnswer()">확인</button>
   `;
 }
 
@@ -482,7 +483,7 @@ function submitDirectionAnswer(input) {
   });
 }
 
-function submitDialAnswer() {
+function gradeDialAnswer() {
   if (waitingNextRound || !sessionActive) return;
 
   const gap = Math.abs(currentDialValue - target);
@@ -527,6 +528,11 @@ function startRoundTimer() {
 
 function handleRoundTimeout() {
   if (waitingNextRound || !sessionActive) return;
+
+  if (currentGame === "dial") {
+    gradeDialAnswer();
+    return;
+  }
 
   document.getElementById("inputText").textContent = "시간 초과";
 
@@ -1304,11 +1310,6 @@ function handleArduinoButton(button) {
   if (currentGame === "direction") {
     if (button === "RED") submitDirectionAnswer("LEFT");
     if (button === "BLUE") submitDirectionAnswer("RIGHT");
-    return;
-  }
-
-  if (currentGame === "dial" && button === "GREEN") {
-    submitDialAnswer();
   }
 }
 
@@ -1316,11 +1317,6 @@ function handleArduinoRemote(command) {
   if (currentGame === "direction") {
     if (command === "LEFT") submitDirectionAnswer("LEFT");
     if (command === "RIGHT") submitDirectionAnswer("RIGHT");
-    return;
-  }
-
-  if (currentGame === "dial" && command === "OK") {
-    submitDialAnswer();
   }
 }
 
