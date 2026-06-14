@@ -157,10 +157,44 @@ h1 {
 
 .top-menu {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 10px;
   margin-bottom: 24px;
   flex-wrap: wrap;
+}
+
+.arduino-status {
+  margin-right: auto;
+  padding: 10px 14px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #765f55;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.arduino-status.disconnected {
+  background: #f2eeeb;
+}
+
+.arduino-status.connected {
+  background: #dff3ec;
+  color: #24745c;
+}
+
+.arduino-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #aaa;
+}
+
+.arduino-status.connected .arduino-status-dot {
+  background: #2a9d72;
+  box-shadow: 0 0 0 4px rgba(42, 157, 114, 0.14);
 }
 
 .sub-btn {
@@ -178,6 +212,150 @@ h1 {
 /* =========================
    게임 영역
 ========================= */
+
+.game-setup {
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: 24px;
+  background: #fff0df;
+  text-align: left;
+}
+
+.game-setup .game-title,
+.setup-description {
+  text-align: center;
+}
+
+.setup-description {
+  margin: 0 0 28px;
+  color: #666;
+  font-size: 18px;
+}
+
+.setting-group + .setting-group {
+  margin-top: 28px;
+}
+
+.setting-heading {
+  margin-bottom: 12px;
+}
+
+.setting-heading strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 22px;
+}
+
+.setting-heading span {
+  color: #777;
+  font-size: 15px;
+}
+
+.setting-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.setting-option {
+  min-height: 112px;
+  padding: 16px 12px;
+  border: 3px solid transparent;
+  border-radius: 18px;
+  background: #fff;
+  color: #4b403a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+.setting-option strong,
+.setting-option span {
+  display: block;
+}
+
+.setting-option strong {
+  margin-bottom: 8px;
+  font-size: 22px;
+}
+
+.setting-option span {
+  color: #777;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.setting-option.selected {
+  border-color: #e07a5f;
+  background: #fff9f4;
+  box-shadow: 0 5px 14px rgba(224, 122, 95, 0.2);
+}
+
+.start-btn {
+  display: block;
+  width: min(360px, 100%);
+  min-height: 72px;
+  margin: 32px auto 0;
+  border-radius: 18px;
+  background: #e07a5f;
+  color: #fff;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.session-status {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.session-status-item {
+  min-width: 145px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  background: #f8f8f8;
+}
+
+.session-status-item span,
+.session-status-item strong {
+  display: block;
+}
+
+.session-status-item > span {
+  margin-bottom: 4px;
+  color: #777;
+  font-size: 14px;
+}
+
+.session-status-item strong {
+  font-size: 23px;
+}
+
+.timer-status {
+  background: #fff0df;
+  color: #b65e47;
+}
+
+.timer-status .time-warning {
+  color: #d73939;
+  animation: timer-pulse 0.6s infinite alternate;
+}
+
+.active-settings {
+  flex: 1;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: #f8f8f8;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-weight: bold;
+}
+
+@keyframes timer-pulse {
+  to {
+    transform: scale(1.08);
+  }
+}
 
 .game-panel {
   padding: clamp(20px, 4vw, 30px);
@@ -248,6 +426,13 @@ input[type="range"] {
   margin: 8px 0 18px;
 }
 
+.dial-tolerance {
+  margin: 0 0 12px;
+  color: #755f51;
+  font-size: 17px;
+  font-weight: bold;
+}
+
 .answer-buttons {
   width: 100%;
   display: flex;
@@ -270,6 +455,190 @@ input[type="range"] {
   width: min(190px, 100%);
   font-size: clamp(24px, 4vw, 30px);
   background: #e07a5f;
+}
+
+/* =========================
+   동물 얼굴 분류
+========================= */
+
+.direction-mode {
+  background: #fff3d8;
+}
+
+.direction-mode .cards {
+  display: none;
+}
+
+.direction-mode .input-area {
+  margin-top: 0;
+}
+
+.classification-board {
+  width: min(760px, 100%);
+  min-height: 540px;
+  margin: 0 auto;
+  padding: 24px;
+  border: 4px solid #edbd66;
+  border-radius: 32px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0)),
+    #f8d98b;
+  box-shadow: inset 0 -18px 0 rgba(201, 121, 98, 0.12);
+  overflow: hidden;
+}
+
+.classification-destinations {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.classification-bin {
+  width: 190px;
+  padding: 12px 14px 15px;
+  border: 3px solid rgba(91, 66, 48, 0.16);
+  border-radius: 24px;
+  background: #fff;
+  color: #4c4039;
+  box-shadow: 0 7px 0 rgba(91, 66, 48, 0.14);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.classification-bin:hover,
+.classification-bin:focus-visible {
+  opacity: 1;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 0 rgba(91, 66, 48, 0.12);
+}
+
+.classification-bin img {
+  display: block;
+  width: 104px;
+  height: 104px;
+  margin: 6px auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.classification-bin strong {
+  display: block;
+  font-size: 25px;
+}
+
+.bin-side {
+  display: block;
+  color: #8a7162;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.rabbit-bin {
+  border-color: #efb6bc;
+}
+
+.cat-bin {
+  border-color: #efb15e;
+}
+
+.classification-lane {
+  width: min(300px, 62%);
+  margin: -38px auto 0;
+  padding: 16px 18px 22px;
+  border-radius: 150px 150px 34px 34px;
+  background: rgba(255, 247, 219, 0.78);
+  box-shadow: inset 0 0 0 3px rgba(201, 121, 98, 0.12);
+}
+
+.classification-question {
+  display: block;
+  margin-bottom: 12px;
+  color: #6a5548;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.classification-target {
+  width: 226px;
+  height: 226px;
+  margin: 0 auto;
+  padding: 10px;
+  border: 6px solid #fff;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 10px 20px rgba(91, 66, 48, 0.2);
+  animation: classification-arrive 0.25s ease-out;
+}
+
+.classification-target img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.classification-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: -42px;
+}
+
+.classification-controls .direction-btn {
+  width: 210px;
+  min-height: 88px;
+  padding: 12px 20px;
+  border: 5px solid #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 0 rgba(91, 66, 48, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.classification-controls .direction-btn:hover,
+.classification-controls .direction-btn:focus-visible {
+  opacity: 1;
+  transform: translateY(-3px);
+  box-shadow: 0 11px 0 rgba(91, 66, 48, 0.17);
+}
+
+.classification-controls .direction-btn:active {
+  transform: translateY(5px);
+  box-shadow: 0 3px 0 rgba(91, 66, 48, 0.2);
+}
+
+.direction-left-btn {
+  background: #d98591;
+}
+
+.direction-right-btn {
+  background: #dd9449;
+}
+
+.direction-arrow {
+  font-size: 48px;
+  line-height: 0.8;
+}
+
+.classification-hint {
+  margin: 20px 0 0;
+  color: #755f51;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+@keyframes classification-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .color-btn {
@@ -370,6 +739,242 @@ input[type="range"] {
    결과 그래프 / 기록
 ========================= */
 
+.progress-filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0 24px;
+  flex-wrap: wrap;
+}
+
+.storage-note {
+  width: fit-content;
+  margin: -16px auto 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #f6f1ed;
+  color: #7b6c64;
+  font-size: 13px;
+}
+
+.progress-filter {
+  min-width: 96px;
+  padding: 12px 18px;
+  border: 2px solid #ead8cc;
+  border-radius: 999px;
+  background: #fff;
+  color: #69574d;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.progress-filter.selected {
+  border-color: #e07a5f;
+  background: #e07a5f;
+  color: #fff;
+}
+
+.progress-empty {
+  padding: 48px 20px;
+  border-radius: 22px;
+  background: #f8f8f8;
+  color: #777;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.progress-insight {
+  padding: 20px 24px;
+  border-left: 6px solid #e07a5f;
+  border-radius: 16px;
+  background: #fff0df;
+  text-align: left;
+}
+
+.progress-insight strong,
+.progress-insight span {
+  display: block;
+}
+
+.progress-insight strong {
+  margin-bottom: 7px;
+  color: #a9523e;
+  font-size: 20px;
+}
+
+.progress-insight span {
+  color: #5f5149;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.progress-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 22px 0;
+}
+
+.progress-stat-card {
+  padding: 20px 14px;
+  border-radius: 18px;
+  background: #f8f8f8;
+}
+
+.progress-stat-label {
+  color: #777;
+  font-size: 15px;
+}
+
+.progress-stat-value {
+  margin: 8px 0 5px;
+  color: #3d3531;
+  font-size: clamp(26px, 4vw, 32px);
+  font-weight: bold;
+}
+
+.progress-stat-detail {
+  color: #8a7a71;
+  font-size: 13px;
+}
+
+.progress-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.progress-chart-card {
+  padding: 20px;
+  border: 1px solid #eee3dc;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(78, 58, 47, 0.07);
+}
+
+.progress-chart-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.progress-chart-heading strong {
+  font-size: 19px;
+}
+
+.progress-chart-heading span {
+  color: #888;
+  font-size: 13px;
+}
+
+.progress-chart {
+  height: 220px;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.progress-bar-item {
+  min-width: 42px;
+  flex: 1 0 42px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progress-bar-value {
+  height: 30px;
+  color: #66574f;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+}
+
+.progress-bar-track {
+  width: 70%;
+  flex: 1;
+  border-radius: 9px 9px 3px 3px;
+  background: #f0ebe8;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  width: 100%;
+  min-height: 5px;
+  border-radius: 9px 9px 3px 3px;
+  transition: height 0.3s;
+}
+
+.accuracy-progress-bar {
+  background: #e07a5f;
+}
+
+.reaction-progress-bar {
+  background: #c97490;
+}
+
+.progress-bar-label {
+  margin-top: 7px;
+  color: #888;
+  font-size: 11px;
+}
+
+.game-progress-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.game-progress-card {
+  padding: 20px;
+  border-radius: 18px;
+  background: #fff6ed;
+  text-align: left;
+}
+
+.game-progress-card > strong {
+  display: block;
+  margin-bottom: 14px;
+  color: #a9523e;
+  font-size: 19px;
+}
+
+.game-progress-card > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-top: 1px solid #efdccf;
+}
+
+.game-progress-card span {
+  color: #777;
+}
+
+.session-status-badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.session-status-badge.completed {
+  background: #dff3ec;
+  color: #24745c;
+}
+
+.session-status-badge.in-progress {
+  background: #fff0cf;
+  color: #92651d;
+}
+
 .section-title {
   text-align: left;
   font-size: clamp(20px, 4vw, 22px);
@@ -428,6 +1033,16 @@ table {
   white-space: nowrap;
   display: block;
   overflow-x: auto;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-scroll table {
+  display: table;
+  overflow: visible;
 }
 
 table th,
@@ -599,6 +1214,35 @@ table th {
     justify-content: center;
   }
 
+  .arduino-status {
+    width: 100%;
+    margin-right: 0;
+    justify-content: center;
+  }
+
+  .setting-options {
+    grid-template-columns: 1fr;
+  }
+
+  .setting-option {
+    min-height: 88px;
+  }
+
+  .session-status {
+    flex-wrap: wrap;
+  }
+
+  .session-status-item {
+    flex: 1;
+    min-width: 130px;
+  }
+
+  .active-settings {
+    flex-basis: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
   .sub-btn {
     flex: 1 1 auto;
     min-width: 120px;
@@ -619,6 +1263,19 @@ table th {
     flex-direction: column;
   }
 
+  .progress-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .progress-chart-grid,
+  .game-progress-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .progress-chart {
+    height: 190px;
+  }
+
   .stat-box {
     width: 100%;
     max-width: 100%;
@@ -634,6 +1291,63 @@ table th {
     width: 100%;
   }
 
+  .classification-board {
+    min-height: 0;
+    padding: 14px;
+    border-width: 3px;
+    border-radius: 24px;
+  }
+
+  .classification-destinations {
+    gap: 10px;
+  }
+
+  .classification-bin {
+    width: calc(50% - 5px);
+    padding: 9px 8px 12px;
+    border-radius: 18px;
+  }
+
+  .classification-bin img {
+    width: 76px;
+    height: 76px;
+  }
+
+  .classification-bin strong {
+    font-size: 21px;
+  }
+
+  .classification-lane {
+    width: min(240px, 76%);
+    margin-top: 18px;
+  }
+
+  .classification-question {
+    font-size: 16px;
+  }
+
+  .classification-target {
+    width: 180px;
+    height: 180px;
+  }
+
+  .classification-controls {
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .classification-controls .direction-btn {
+    width: calc(50% - 6px);
+    min-height: 76px;
+    padding: 10px;
+    border-width: 4px;
+    font-size: 20px;
+  }
+
+  .direction-arrow {
+    font-size: 38px;
+  }
+
   .small {
     text-align: left;
   }
@@ -645,5 +1359,21 @@ table th {
 
   table {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .progress-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .progress-filter {
+    min-width: 74px;
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .progress-chart-card {
+    padding: 16px 12px;
   }
 }
