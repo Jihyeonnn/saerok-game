@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>새록새록 재활 게임</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+  <section id="mainPage" class="page main-page">
+    <div class="main-card">
+      <div class="main-badge">손 재활 훈련 게임</div>
+
+      <h1>새록새록</h1>
+
+      <p class="main-text">
+        원하는 훈련을<br />
+        선택해 주세요
+      </p>
+
+      <div class="main-button-grid">
+        <button class="main-select-btn color-main-btn" onclick="selectGame('color')">
+          <span>●</span>
+          색깔 맞추기
+        </button>
+
+        <button class="main-select-btn direction-main-btn" onclick="selectGame('direction')">
+          <span>↔</span>
+          좌/우 분류
+        </button>
+
+        <button class="main-select-btn dial-main-btn" onclick="selectGame('dial')">
+          <span>◉</span>
+          다이얼 맞추기
+        </button>
+
+        <button class="main-select-btn record-main-btn" onclick="showResultPage()">
+          <span>▦</span>
+          기록 확인
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="playPage" class="page wrap hidden">
+    <div class="top-menu">
+      <button class="sub-btn" onclick="showMainPage()">처음으로</button>
+      <button class="sub-btn" onclick="showResultPage()">기록 확인</button>
+      <button class="sub-btn danger-btn" onclick="resetGame()">기록 초기화</button>
+    </div>
+
+    <h1>새록새록</h1>
+    <p class="subtitle">어르신 손 재활을 위한 반응 훈련 게임</p>
+
+    <div class="game-panel">
+      <div id="gameTitle" class="game-title">게임 준비 중</div>
+      <div id="instruction" class="instruction">게임을 선택해 주세요.</div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="label">목표</div>
+          <div id="targetText" class="value">-</div>
+        </div>
+
+        <div class="card">
+          <div class="label">현재 입력</div>
+          <div id="inputText" class="value">-</div>
+        </div>
+
+        <div class="card">
+          <div class="label">사용 장치</div>
+          <div id="methodText" class="value method-value">-</div>
+        </div>
+      </div>
+
+      <div id="inputArea" class="input-area"></div>
+
+      <div id="result" class="result"></div>
+
+      <p class="small">
+        현재 화면은 아두이노 없이 동작하는 발표용 시뮬레이션 화면입니다.<br />
+        실제 구현 시에는 화면 버튼과 슬라이더 입력을 아두이노 버튼, 리모컨, 다이얼 값으로 바꾸면 됩니다.
+      </p>
+    </div>
+
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-title">정답률</div>
+        <div class="stat-value js-accuracy">0%</div>
+        <div class="meter-wrap">
+          <div class="meter js-accuracy-meter"></div>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-title">정답 / 전체</div>
+        <div class="stat-value">
+          <span class="js-correct-count">0</span> /
+          <span class="js-total-count">0</span>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-title">평균 반응시간</div>
+        <div class="stat-value">
+          <span class="js-average-reaction">0</span>ms
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="resultPage" class="page wrap hidden">
+    <div class="top-menu">
+      <button class="sub-btn" onclick="showMainPage()">처음으로</button>
+      <button class="sub-btn danger-btn" onclick="resetGame()">기록 초기화</button>
+    </div>
+
+    <h1>훈련 결과</h1>
+    <p class="subtitle">정답률과 반응시간을 확인해요.</p>
+
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-title">정답률</div>
+        <div class="stat-value js-accuracy">0%</div>
+        <div class="meter-wrap">
+          <div class="meter js-accuracy-meter"></div>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-title">정답 / 전체</div>
+        <div class="stat-value">
+          <span class="js-correct-count">0</span> /
+          <span class="js-total-count">0</span>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-title">평균 반응시간</div>
+        <div class="stat-value">
+          <span class="js-average-reaction">0</span>ms
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">최근 반응시간 그래프</div>
+    <div id="reactionGraph" class="graph">
+      <div class="empty-text">아직 기록이 없습니다.</div>
+    </div>
+
+    <div class="section-title">최근 기록</div>
+    <table>
+      <thead>
+        <tr>
+          <th>번호</th>
+          <th>게임</th>
+          <th>목표</th>
+          <th>입력</th>
+          <th>차이</th>
+          <th>결과</th>
+          <th>반응시간</th>
+        </tr>
+      </thead>
+      <tbody id="recordBody">
+        <tr>
+          <td colspan="7">아직 기록이 없습니다.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>

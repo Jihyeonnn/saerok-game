@@ -1,0 +1,649 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #fff6ed;
+  color: #333;
+  text-align: center;
+  word-break: keep-all;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.page {
+  width: 100%;
+}
+
+/* =========================
+   메인 화면
+========================= */
+
+.main-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #fff6ed;
+}
+
+.main-card {
+  width: min(760px, 100%);
+  padding: 36px 52px;
+  background: #fff;
+  border-radius: 34px;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.13);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-badge {
+  padding: 11px 24px;
+  border-radius: 999px;
+  background: #fff0df;
+  color: #c97962;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.main-card h1 {
+  margin: 0 0 16px;
+  font-size: 74px;
+  line-height: 1.05;
+  color: #c97962;
+}
+
+.main-text {
+  margin: 0 0 32px;
+  font-size: 35px;
+  line-height: 1.35;
+  font-weight: bold;
+  color: #444;
+}
+
+.main-button-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.main-select-btn {
+  width: 100%;
+  height: 116px;
+  border-radius: 28px;
+  background: #e07a5f;
+  color: #fff;
+  font-size: 29px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
+.main-select-btn span {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.color-main-btn {
+  background: #d07b66;
+}
+
+.direction-main-btn {
+  background: #d49a62;
+}
+
+.dial-main-btn {
+  background: #c97490;
+}
+
+.record-main-btn {
+  background: #555;
+}
+
+/* =========================
+   공통 화면
+========================= */
+
+.wrap {
+  width: min(1000px, calc(100% - 32px));
+  margin: 24px auto;
+  padding: clamp(20px, 4vw, 36px);
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(42px, 7vw, 48px);
+  color: #e07a5f;
+}
+
+.subtitle {
+  margin: 12px 0 30px;
+  font-size: clamp(17px, 3vw, 20px);
+  color: #666;
+  line-height: 1.5;
+}
+
+.top-menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.sub-btn {
+  padding: 13px 20px;
+  border-radius: 14px;
+  background: #555;
+  color: #fff;
+  font-size: 17px;
+}
+
+.danger-btn {
+  background: #9d4b4b;
+}
+
+/* =========================
+   게임 영역
+========================= */
+
+.game-panel {
+  padding: clamp(20px, 4vw, 30px);
+  border-radius: 24px;
+  background: #fff0df;
+  margin-bottom: 26px;
+}
+
+.game-title {
+  font-size: clamp(28px, 5vw, 34px);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.instruction {
+  font-size: clamp(18px, 3vw, 20px);
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 26px;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.card {
+  flex: 1 1 220px;
+  max-width: 280px;
+  min-height: 150px;
+  padding: 24px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.label {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.value {
+  min-height: 58px;
+  font-size: clamp(34px, 6vw, 42px);
+  font-weight: bold;
+  color: #e07a5f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.method-value {
+  font-size: clamp(22px, 4vw, 25px);
+  line-height: 1.4;
+}
+
+.input-area {
+  margin-top: 22px;
+}
+
+input[type="range"] {
+  width: min(540px, 100%);
+  margin: 8px 0 18px;
+}
+
+.answer-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.direction-btn,
+.color-btn,
+.confirm-btn {
+  min-height: 76px;
+  border-radius: 16px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.direction-btn {
+  width: min(190px, 100%);
+  font-size: clamp(24px, 4vw, 30px);
+  background: #e07a5f;
+}
+
+.color-btn {
+  width: min(180px, 100%);
+  font-size: clamp(22px, 4vw, 24px);
+}
+
+.confirm-btn {
+  width: min(180px, 100%);
+  font-size: clamp(24px, 4vw, 26px);
+  background: #e07a5f;
+}
+
+.red-btn {
+  background: #e63946;
+}
+
+.green-btn {
+  background: #2a9d8f;
+}
+
+.blue-btn {
+  background: #457b9d;
+}
+
+.result {
+  min-height: 60px;
+  height: auto;
+  font-size: clamp(26px, 5vw, 34px);
+  font-weight: bold;
+  line-height: 1.35;
+  margin-top: 20px;
+}
+
+.correct {
+  color: #2a9d8f;
+}
+
+.wrong {
+  color: #e63946;
+}
+
+.small {
+  margin-top: 18px;
+  color: #777;
+  font-size: clamp(15px, 2.5vw, 16px);
+  line-height: 1.6;
+}
+
+/* =========================
+   통계
+========================= */
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 26px 0;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  flex: 1 1 210px;
+  max-width: 260px;
+  padding: 22px;
+  background: #f8f8f8;
+  border-radius: 18px;
+}
+
+.stat-title {
+  font-size: 18px;
+  color: #666;
+}
+
+.stat-value {
+  margin-top: 8px;
+  font-size: clamp(27px, 5vw, 30px);
+  font-weight: bold;
+}
+
+.meter-wrap {
+  width: 100%;
+  height: 26px;
+  background: #e6e6e6;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.meter {
+  width: 0%;
+  height: 100%;
+  background: #e07a5f;
+  transition: 0.25s;
+}
+
+/* =========================
+   결과 그래프 / 기록
+========================= */
+
+.section-title {
+  text-align: left;
+  font-size: clamp(20px, 4vw, 22px);
+  font-weight: bold;
+  margin: 30px 0 14px;
+}
+
+.graph {
+  width: 100%;
+  height: 170px;
+  padding: 20px;
+  background: #f8f8f8;
+  border-radius: 18px;
+  margin-top: 12px;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.bar-item {
+  flex: 1 0 56px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.bar {
+  width: 70%;
+  min-height: 5px;
+  background: #e07a5f;
+  border-radius: 8px 8px 0 0;
+  transition: 0.25s;
+}
+
+.bar-label {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #666;
+}
+
+.empty-text {
+  width: 100%;
+  color: #777;
+  align-self: center;
+}
+
+table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 15px;
+  background: #fff;
+  white-space: nowrap;
+  display: block;
+  overflow-x: auto;
+}
+
+table th,
+table td {
+  padding: 11px;
+  border-bottom: 1px solid #eee;
+}
+
+table th {
+  background: #fff0df;
+}
+
+#recordBody {
+  background: #fff;
+}
+
+/* =========================
+   색상 표시
+========================= */
+
+.color-dot {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 3px solid #ddd;
+}
+
+.red-dot {
+  background: #e63946;
+}
+
+.green-dot {
+  background: #2a9d8f;
+}
+
+.blue-dot {
+  background: #457b9d;
+}
+
+/* =========================
+   세로가 낮은 화면
+========================= */
+
+@media (max-height: 760px) and (min-width: 801px) {
+  .main-page {
+    align-items: center;
+    padding: 16px;
+  }
+
+  .main-card {
+    width: min(730px, 100%);
+    padding: 28px 48px;
+  }
+
+  .main-badge {
+    font-size: 20px;
+    padding: 9px 22px;
+    margin-bottom: 12px;
+  }
+
+  .main-card h1 {
+    font-size: 64px;
+    margin-bottom: 12px;
+  }
+
+  .main-text {
+    font-size: 30px;
+    margin-bottom: 22px;
+    line-height: 1.3;
+  }
+
+  .main-button-grid {
+    gap: 15px;
+  }
+
+  .main-select-btn {
+    height: 100px;
+    font-size: 26px;
+    gap: 6px;
+  }
+
+  .main-select-btn span {
+    font-size: 34px;
+  }
+}
+
+@media (max-height: 650px) and (min-width: 801px) {
+  .main-page {
+    align-items: center;
+    padding: 12px;
+  }
+
+  .main-card {
+    padding: 22px 44px;
+  }
+
+  .main-badge {
+    font-size: 18px;
+    padding: 8px 20px;
+    margin-bottom: 10px;
+  }
+
+  .main-card h1 {
+    font-size: 58px;
+    margin-bottom: 10px;
+  }
+
+  .main-text {
+    font-size: 27px;
+    margin-bottom: 18px;
+  }
+
+  .main-button-grid {
+    gap: 12px;
+  }
+
+  .main-select-btn {
+    height: 92px;
+    font-size: 24px;
+  }
+
+  .main-select-btn span {
+    font-size: 30px;
+  }
+}
+
+/* =========================
+   태블릿 이하
+========================= */
+
+@media (max-width: 800px) {
+  .main-page {
+    padding: 16px;
+    align-items: center;
+  }
+
+  .main-card {
+    width: 100%;
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .main-card h1 {
+    font-size: clamp(54px, 15vw, 72px);
+  }
+
+  .main-text {
+    font-size: clamp(28px, 8vw, 36px);
+  }
+
+  .main-button-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .main-select-btn {
+    height: 104px;
+    font-size: 28px;
+  }
+
+  .wrap {
+    width: calc(100% - 20px);
+    margin: 10px auto;
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .top-menu {
+    justify-content: center;
+  }
+
+  .sub-btn {
+    flex: 1 1 auto;
+    min-width: 120px;
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+
+  .cards {
+    flex-direction: column;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .stats {
+    flex-direction: column;
+  }
+
+  .stat-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .answer-buttons {
+    flex-direction: column;
+  }
+
+  .direction-btn,
+  .color-btn,
+  .confirm-btn {
+    width: 100%;
+  }
+
+  .small {
+    text-align: left;
+  }
+
+  .graph {
+    height: 150px;
+    padding: 14px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+}
