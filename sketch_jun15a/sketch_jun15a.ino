@@ -1,3 +1,4 @@
+#define DECODE_NEC
 #include <IRremote.hpp>
 
 /*
@@ -146,11 +147,17 @@ void readDial() {
 // ===================== IR 리모컨 읽기 =====================
 void readIR() {
   if (IrReceiver.decode()) {
-    // NEC 리모컨을 길게 누르면 command가 0인 반복 프레임이 올 수 있음
     bool isRepeat = IrReceiver.decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT;
     uint8_t command = IrReceiver.decodedIRData.command;
+    IRRawDataType rawData = IrReceiver.decodedIRData.decodedRawData;
 
-    if (isRepeat || command == 0x00) {
+    // NEC raw 데이터는 명령 바이트가 16~23번째 비트에 들어 있음
+    if (command == 0x00 && rawData != 0) {
+      command = (rawData >> 16) & 0xFF;
+    }
+
+    // 버튼을 길게 누를 때 오는 반복 프레임은 중복 입력 방지를 위해 무시
+    if (isRepeat) {
       IrReceiver.resume();
       return;
     }
@@ -169,6 +176,9 @@ void readIR() {
     else {
       Serial.print("IR:0x");
       Serial.println(command, HEX);
+
+      Serial.print("IRRAW:0x");
+      Serial.println(rawData, HEX);
     }
 
     IrReceiver.resume();
@@ -262,15 +272,14 @@ void handleBuzzCommand(String cmd) {
 
 // ===================== RGB LED 제어 =====================
 void setRGB(int r, int g, int b) {
-  // Uno에서 D11 PWM은 IR 수신 타이머와 충돌할 수 있어 디지털 출력 사용
+  // Uno의 D11 PWM은 IR 수신 타이머와 충돌하므로 디지털 출력 사용
   digitalWrite(RGB_R, r > 0 ? HIGH : LOW);
   digitalWrite(RGB_G, g > 0 ? HIGH : LOW);
   digitalWrite(RGB_B, b > 0 ? HIGH : LOW);
 }
 
-// ===================== IR 수신과 충돌하지 않는 부저 제어 =====================
+// ===================== 부저 사용 후 IR 수신 복구 =====================
 void playToneSafely(int frequency, int duration) {
-  IrReceiver.stopTimer();
   tone(BUZZER_PIN, frequency, duration);
   delay(duration);
   noTone(BUZZER_PIN);
