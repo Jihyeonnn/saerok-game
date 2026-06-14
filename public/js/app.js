@@ -61,9 +61,9 @@ const difficultyDescriptions = {
     hard: "세 가지 색, 글자와 글씨 색이 항상 다름"
   },
   direction: {
-    easy: "토끼는 왼쪽, 고양이는 오른쪽으로 고정",
-    normal: "게임 시작 시 분류함 위치가 결정됨",
-    hard: "매 문제마다 분류함 위치가 바뀜"
+    easy: "큰 얼굴로 분류",
+    normal: "기본 크기 얼굴로 분류",
+    hard: "작은 얼굴로 분류"
   },
   dial: {
     easy: "목표값과 차이 120까지 정답",
@@ -95,7 +95,6 @@ let sessionActive = false;
 let roundTimerId = null;
 let nextRoundTimerId = null;
 let roundDeadline = 0;
-let sessionDirectionOrder = [...directionItems];
 let currentSessionId = null;
 let sessionStartedAt = null;
 let progressGameFilter = "all";
@@ -206,7 +205,6 @@ function startGame() {
   waitingNextRound = false;
   sessionActive = true;
   currentDialValue = 512;
-  sessionDirectionOrder = getShuffledDirectionItems();
   currentSessionId = createSessionId();
   sessionStartedAt = new Date().toISOString();
 
@@ -275,27 +273,10 @@ function makeColorRound() {
 
 function makeDirectionRound() {
   directionCharacter = directionItems[Math.floor(Math.random() * directionItems.length)];
-  const difficulty = settingsByGame.direction.difficulty;
-  let order = directionItems;
-
-  if (difficulty === "normal") {
-    order = sessionDirectionOrder;
-  }
-
-  if (difficulty === "hard") {
-    order = getShuffledDirectionItems();
-  }
-
-  directionLeftSign = order[0];
-  directionRightSign = order[1];
+  directionLeftSign = directionItems[0];
+  directionRightSign = directionItems[1];
 
   target = directionLeftSign.id === directionCharacter.id ? "LEFT" : "RIGHT";
-}
-
-function getShuffledDirectionItems() {
-  return Math.random() < 0.5
-    ? [...directionItems]
-    : [...directionItems].reverse();
 }
 
 function renderGamePage() {
@@ -351,11 +332,13 @@ function renderColorPage() {
 }
 
 function renderDirectionPage() {
+  const difficulty = settingsByGame.direction.difficulty;
+
   document.getElementById("targetText").textContent = directionCharacter.name;
   document.getElementById("inputText").textContent = "분류 대기";
 
   document.getElementById("inputArea").innerHTML = `
-    <div class="classification-board">
+    <div class="classification-board direction-difficulty-${difficulty}">
       <div class="classification-destinations">
         <button
           class="classification-bin rabbit-bin"

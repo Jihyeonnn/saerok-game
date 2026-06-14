@@ -575,6 +575,18 @@ input[type="range"] {
   object-fit: cover;
 }
 
+.direction-difficulty-easy .classification-target {
+  width: 250px;
+  height: 250px;
+}
+
+.direction-difficulty-hard .classification-target {
+  width: 184px;
+  height: 184px;
+  margin-top: 24px;
+  margin-bottom: 18px;
+}
+
 .classification-controls {
   display: flex;
   justify-content: space-between;
@@ -1342,6 +1354,18 @@ table th {
   .classification-target {
     width: 180px;
     height: 180px;
+  }
+
+  .direction-difficulty-easy .classification-target {
+    width: 200px;
+    height: 200px;
+  }
+
+  .direction-difficulty-hard .classification-target {
+    width: 150px;
+    height: 150px;
+    margin-top: 18px;
+    margin-bottom: 12px;
   }
 
   .classification-controls {
