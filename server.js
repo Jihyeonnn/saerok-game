@@ -157,6 +157,18 @@ function logArduinoInput(message) {
     return;
   }
 
+  if (message.type === "ir") {
+    const remoteLabels = {
+      LEFT: "왼쪽",
+      RIGHT: "오른쪽",
+      OK: "확인"
+    };
+    const label = remoteLabels[message.value] || "미등록 코드";
+
+    console.log(`[리모컨 입력 ${timestamp}] ${label} (${message.value})`);
+    return;
+  }
+
   if (message.type !== "button") return;
 
   const buttonLabels = {
