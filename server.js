@@ -150,6 +150,13 @@ function parseArduinoMessage(line) {
 }
 
 function logArduinoInput(message) {
+  const timestamp = new Date().toLocaleTimeString("ko-KR");
+
+  if (message.type === "dial") {
+    console.log(`[가변저항 입력 ${timestamp}] ${message.value} / 1023`);
+    return;
+  }
+
   if (message.type !== "button") return;
 
   const buttonLabels = {
@@ -158,7 +165,6 @@ function logArduinoInput(message) {
     BLUE: "파랑"
   };
   const label = buttonLabels[message.value] || message.value;
-  const timestamp = new Date().toLocaleTimeString("ko-KR");
 
   console.log(`[버튼 입력 ${timestamp}] ${label} (${message.value})`);
 }
