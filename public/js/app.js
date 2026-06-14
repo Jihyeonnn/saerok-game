@@ -979,7 +979,12 @@ function renderProgressCharts(sessions) {
     recentSessions,
     function (session) { return session.accuracy; },
     function (value) { return value + "%"; },
-    "accuracy-progress-bar"
+    {
+      type: "accuracy",
+      minValue: 0,
+      maxValue: 100,
+      ariaLabel: "회차별 평균 정답률 변화"
+    }
   );
 
   renderSessionChart(
@@ -987,11 +992,14 @@ function renderProgressCharts(sessions) {
     recentSessions,
     function (session) { return session.averageReactionTime; },
     function (value) { return value + "ms"; },
-    "reaction-progress-bar"
+    {
+      type: "reaction",
+      ariaLabel: "회차별 평균 반응시간 변화"
+    }
   );
 }
 
-function renderSessionChart(containerId, sessions, getValue, formatValue, barClass) {
+function renderSessionChart(containerId, sessions, getValue, formatValue, options) {
   const container = document.getElementById(containerId);
 
   if (!container) return;
@@ -1002,22 +1010,77 @@ function renderSessionChart(containerId, sessions, getValue, formatValue, barCla
   }
 
   const values = sessions.map(getValue);
-  const maxValue = Math.max(...values, 1);
-
-  container.innerHTML = sessions.map(function (session, index) {
+  const rawMin = Math.min(...values);
+  const rawMax = Math.max(...values);
+  const valueRange = Math.max(rawMax - rawMin, rawMax * 0.15, 100);
+  const minValue = options.minValue !== undefined
+    ? options.minValue
+    : Math.max(0, Math.floor((rawMin - valueRange * 0.15) / 100) * 100);
+  const maxValue = options.maxValue !== undefined
+    ? options.maxValue
+    : Math.ceil((rawMax + valueRange * 0.15) / 100) * 100;
+  const safeRange = Math.max(maxValue - minValue, 1);
+  const width = Math.max(560, sessions.length * 78);
+  const height = 240;
+  const padding = { top: 38, right: 24, bottom: 42, left: 58 };
+  const plotWidth = width - padding.left - padding.right;
+  const plotHeight = height - padding.top - padding.bottom;
+  const pointClass = options.type === "accuracy"
+    ? "accuracy-line"
+    : "reaction-line";
+  const points = sessions.map(function (session, index) {
     const value = getValue(session);
-    const height = Math.max((value / maxValue) * 100, 5);
+    const x = sessions.length === 1
+      ? padding.left + plotWidth / 2
+      : padding.left + (plotWidth * index) / (sessions.length - 1);
+    const y = padding.top + ((maxValue - value) / safeRange) * plotHeight;
+
+    return { x, y, value, index };
+  });
+  const pointString = points.map(function (point) {
+    return `${point.x},${point.y}`;
+  }).join(" ");
+  const areaPointString = [
+    `${points[0].x},${padding.top + plotHeight}`,
+    pointString,
+    `${points[points.length - 1].x},${padding.top + plotHeight}`
+  ].join(" ");
+  const gridLineCount = 4;
+  const gridLines = Array.from({ length: gridLineCount + 1 }, function (_, index) {
+    const ratio = index / gridLineCount;
+    const y = padding.top + plotHeight * ratio;
+    const value = Math.round(maxValue - safeRange * ratio);
 
     return `
-      <div class="progress-bar-item" title="${formatValue(value)}">
-        <div class="progress-bar-value">${formatValue(value)}</div>
-        <div class="progress-bar-track">
-          <div class="progress-bar-fill ${barClass}" style="height:${height}%"></div>
-        </div>
-        <div class="progress-bar-label">${index + 1}회</div>
-      </div>
+      <line class="line-chart-grid" x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}"></line>
+      <text class="line-chart-y-label" x="${padding.left - 10}" y="${y + 4}" text-anchor="end">${formatValue(value)}</text>
     `;
   }).join("");
+  const pointElements = points.map(function (point) {
+    return `
+      <g class="line-chart-point-group">
+        <circle class="line-chart-point ${pointClass}" cx="${point.x}" cy="${point.y}" r="5"></circle>
+        <text class="line-chart-value" x="${point.x}" y="${Math.max(point.y - 11, 16)}" text-anchor="middle">${formatValue(point.value)}</text>
+        <text class="line-chart-x-label" x="${point.x}" y="${height - 14}" text-anchor="middle">${point.index + 1}회</text>
+      </g>
+    `;
+  }).join("");
+
+  container.innerHTML = `
+    <div class="line-chart-scroll">
+      <svg
+        class="line-chart"
+        viewBox="0 0 ${width} ${height}"
+        role="img"
+        aria-label="${options.ariaLabel}"
+      >
+        ${gridLines}
+        <polygon class="line-chart-area ${pointClass}" points="${areaPointString}"></polygon>
+        <polyline class="line-chart-path ${pointClass}" points="${pointString}"></polyline>
+        ${pointElements}
+      </svg>
+    </div>
+  `;
 }
 
 function renderGameProgressCards(sessions) {
