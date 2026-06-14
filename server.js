@@ -143,6 +143,7 @@ function parseArduinoMessage(line) {
 
   if (value.startsWith("IR:")) {
     const command = value.slice(3).toUpperCase();
+    if (command === "0X0" || command === "0") return null;
     return { type: "ir", value: command };
   }
 

@@ -146,7 +146,14 @@ void readDial() {
 // ===================== IR 리모컨 읽기 =====================
 void readIR() {
   if (IrReceiver.decode()) {
+    // NEC 리모컨을 길게 누르면 command가 0인 반복 프레임이 올 수 있음
+    bool isRepeat = IrReceiver.decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT;
     uint8_t command = IrReceiver.decodedIRData.command;
+
+    if (isRepeat || command == 0x00) {
+      IrReceiver.resume();
+      return;
+    }
 
     // 일반 미니 리모컨 기준으로 자주 쓰이는 값
     // 리모컨마다 다를 수 있어서 Serial Monitor로 먼저 확인하면 됨
@@ -197,6 +204,7 @@ void readSerialCommand() {
     setRGB(0, 0, 0);
     analogWrite(MOTOR_PIN, 0);
     noTone(BUZZER_PIN);
+    IrReceiver.restartTimer();
   } 
   else if (cmd.startsWith("RGB:")) {
     handleRGBCommand(cmd);
@@ -249,37 +257,43 @@ void handleBuzzCommand(String cmd) {
   freq = constrain(freq, 100, 5000);
   duration = constrain(duration, 20, 2000);
 
-  tone(BUZZER_PIN, freq, duration);
+  playToneSafely(freq, duration);
 }
 
 // ===================== RGB LED 제어 =====================
 void setRGB(int r, int g, int b) {
-  analogWrite(RGB_R, r);
-  analogWrite(RGB_G, g);
-  analogWrite(RGB_B, b);
+  // Uno에서 D11 PWM은 IR 수신 타이머와 충돌할 수 있어 디지털 출력 사용
+  digitalWrite(RGB_R, r > 0 ? HIGH : LOW);
+  digitalWrite(RGB_G, g > 0 ? HIGH : LOW);
+  digitalWrite(RGB_B, b > 0 ? HIGH : LOW);
+}
+
+// ===================== IR 수신과 충돌하지 않는 부저 제어 =====================
+void playToneSafely(int frequency, int duration) {
+  IrReceiver.stopTimer();
+  tone(BUZZER_PIN, frequency, duration);
+  delay(duration);
+  noTone(BUZZER_PIN);
+  IrReceiver.restartTimer();
 }
 
 // ===================== 버튼 입력음 =====================
 void shortBeep() {
-  tone(BUZZER_PIN, 1200, 50);
+  playToneSafely(1200, 50);
 }
 
 // ===================== 정답 피드백 =====================
 void successFeedback() {
   setRGB(0, 255, 0);
-  tone(BUZZER_PIN, 1500, 120);
-
   analogWrite(MOTOR_PIN, 150);
-  delay(120);
+  playToneSafely(1500, 120);
   analogWrite(MOTOR_PIN, 0);
 }
 
 // ===================== 오답 피드백 =====================
 void failFeedback() {
   setRGB(255, 0, 0);
-  tone(BUZZER_PIN, 300, 200);
-
   analogWrite(MOTOR_PIN, 220);
-  delay(250);
+  playToneSafely(300, 200);
   analogWrite(MOTOR_PIN, 0);
 }
