@@ -82,6 +82,7 @@ async function connectArduino() {
       const message = parseArduinoMessage(line);
 
       if (message) {
+        logArduinoInput(message);
         io.emit("arduino:input", message);
       }
     });
@@ -148,6 +149,20 @@ function parseArduinoMessage(line) {
   return { type: "message", value: value };
 }
 
+function logArduinoInput(message) {
+  if (message.type !== "button") return;
+
+  const buttonLabels = {
+    RED: "빨강",
+    GREEN: "초록",
+    BLUE: "파랑"
+  };
+  const label = buttonLabels[message.value] || message.value;
+  const timestamp = new Date().toLocaleTimeString("ko-KR");
+
+  console.log(`[버튼 입력 ${timestamp}] ${label} (${message.value})`);
+}
+
 function writeArduinoCommand(command) {
   if (!arduinoPort || !arduinoPort.isOpen) return false;
 
@@ -186,6 +201,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  logArduinoInput,
   parseArduinoMessage,
   startServer
 };
